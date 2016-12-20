@@ -5,7 +5,7 @@ MAX_LAT=46
 MIN_LON=-77
 MAX_LON=-75
 
-INPUTS="AirportArea SRTM-3 AirportObj Landmass InlandWater Water WaterExtra Roads Railways Settlements Landuse TreeCover CropCover GrassCover BuiltUpCover"
+INPUTS="AirportArea SRTM-3 AirportObj Landmass InlandWater Water WaterExtra Roads Railways Places Landuse TreeCover CropCover GrassCover BuiltUpCover"
 
 echo Inputs: $INPUTS
 

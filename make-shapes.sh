@@ -46,6 +46,15 @@ ogr-decode --all-threads --where "fclass='rail'" --line-width 3 --texture-lines 
 ogr-decode --all-threads --where "fclass='rail'" --line-width 3 --texture-lines --max-segment 500 --area-type Railroad --spat $MIN_LON $MIN_LAT $MAX_LON $MAX_LAT work/Railways data/shapefiles/osm-railways-CA-QB
 
 #
+# OSM point places
+#
+rm -rf work/Places
+ogr-decode --all-threads --where "fclass='village'" --point-width 500 --max-segment 500 --area-type Town --spat $MIN_LON $MIN_LAT $MAX_LON $MAX_LAT work/Places data/shapefiles/osm-places-CA-ON
+ogr-decode --all-threads --where "fclass='village'" --point-width 500 --max-segment 500 --area-type Town --spat $MIN_LON $MIN_LAT $MAX_LON $MAX_LAT work/Places data/shapefiles/osm-places-CA-QB
+ogr-decode --all-threads --where "fclass='hamlet'" --point-width 250 --max-segment 500 --area-type Town --spat $MIN_LON $MIN_LAT $MAX_LON $MAX_LAT work/Places data/shapefiles/osm-places-CA-ON
+ogr-decode --all-threads --where "fclass='hamlet'" --point-width 250 --max-segment 500 --area-type Town --spat $MIN_LON $MIN_LAT $MAX_LON $MAX_LAT work/Places data/shapefiles/osm-places-CA-QB
+
+#
 # OSM landuse
 #
 rm -rf work/Landuse
@@ -67,12 +76,6 @@ ogr-decode --all-threads --max-segment 500 --area-type BuiltUpCover --spat $MIN_
 #
 # vmap0 defaults
 #
-
-# small settlements
-
-rm -rf work/Settlements
-ogr-decode --all-threads --where "F_CODE_DES='Settlement'" --max-segment 500 --point-width 500 --area-type BuiltUpCover --spat $MIN_LON $MIN_LAT $MAX_LON $MAX_LAT work/Settlements data/shapefiles/vmap0-settlements
-
 
 # trees
 rm -rf work/TreeCover
