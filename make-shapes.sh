@@ -57,7 +57,7 @@ decode_shape osm-landuse-area water-area Lake "landuse in ('reservoir', 'water')
 
 rm -rf work/water-line
 decode_shape osm-waterway-line water-line River "waterway='river'" 50
-decode_shape osm-waterway-line water-line Stream "waterway='stream'" 25
+#decode_shape osm-waterway-line water-line Stream "waterway='stream'" 25
 decode_shape osm-waterway-line water-line Canal "waterway='canal'" 10
 
 rm -rf work/quarry
