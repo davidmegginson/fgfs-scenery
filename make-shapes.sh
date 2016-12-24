@@ -16,20 +16,20 @@ decode_shape()
 
     QUERY=''
     if [ -n "$4" ]; then
-        QUERY="--where \"${4}\""
+        QUERY="--where ${4}"
     fi
 
     LINE_WIDTH=''
     if [ -n "$5" ]; then
-        LINE_WIDTH="--line-width \"${5}\""
+        LINE_WIDTH="--line-width ${5}"
     fi
 
     POINT_WIDTH=''
     if [ -n "$6" ]; then
-        POINT_WIDTH="--point-width \"${6}\""
+        POINT_WIDTH="--point-width ${6}"
     fi
 
-    ogr-decode --all-threads --max-segment 500 $POINT_WIDTH $LINE_WIDTH --area-type ${AREA_TYPE} --spat $MIN_LON $MIN_LAT $MAX_LON $MAX_LAT work/${OUTPUT_DIR} data/shapefiles/${INPUT_DIR}
+    ogr-decode --all-threads --max-segment 500 $QUERY $POINT_WIDTH $LINE_WIDTH --area-type ${AREA_TYPE} --spat $MIN_LON $MIN_LAT $MAX_LON $MAX_LAT work/${OUTPUT_DIR} data/shapefiles/${INPUT_DIR}
 }
 
 
