@@ -16,7 +16,7 @@ decode_shape()
 
     QUERY=''
     if [ -n "$4" ]; then
-        QUERY="--where ${4}"
+        QUERY="${4}"
     fi
 
     LINE_WIDTH=''
@@ -29,7 +29,11 @@ decode_shape()
         POINT_WIDTH="--point-width ${6}"
     fi
 
-    ogr-decode --all-threads --max-segment 500 $QUERY $POINT_WIDTH $LINE_WIDTH --area-type ${AREA_TYPE} --spat $MIN_LON $MIN_LAT $MAX_LON $MAX_LAT work/${OUTPUT_DIR} data/shapefiles/${INPUT_DIR}
+    if [ -n "$QUERY" ]; then
+        ogr-decode --all-threads --max-segment 500 --where "$QUERY" ${POINT_WIDTH} ${LINE_WIDTH} --area-type ${AREA_TYPE} --spat $MIN_LON $MIN_LAT $MAX_LON $MAX_LAT work/${OUTPUT_DIR} data/shapefiles/${INPUT_DIR}
+    else
+        ogr-decode --all-threads --max-segment 500 ${POINT_WIDTH} ${LINE_WIDTH} --area-type ${AREA_TYPE} --spat $MIN_LON $MIN_LAT $MAX_LON $MAX_LAT work/${OUTPUT_DIR} data/shapefiles/${INPUT_DIR}
+    fi
 }
 
 
@@ -45,7 +49,7 @@ decode_shape osm-highway-line highway Road-Tertiary "highway='tertiary'" 8
 decode_shape osm-highway-line highway Road-Service "highway in ('motorway_link', 'trunk_link', 'primary_link', 'secondary_link', 'tertiary_link')" 8
 
 rm -rf work/railway
-decode_shape osm-railway-line railway Road-Motorway "railway in ('rail', 'light_rail', 'preserved')" 3
+decode_shape osm-railway-line railway Railroad "railway in ('rail', 'light_rail', 'preserved')" 3
 
 rm -rf work/wetland
 decode_shape osm-natural-area wetland Marsh "natural='wetland'"
@@ -79,18 +83,19 @@ decode_shape osm-natural-area nature MixedForest "natural='wood'"
 decode_shape osm-natural-area nature Scrub "natural='scrub'"
 decode_shape osm-landuse-area nature MixedCrop "landuse in ('farm', 'farmland', 'farmyard', 'agriculture', 'vineyard')"
 decode_shape osm-landuse-area nature Grassland "landuse in ('meadow', 'grass', 'airport')"
+decode_shape osm-landuse-area nature Airport "landuse='airport'"
 decode_shape osm-natural-area nature Grassland "landuse='grassland'"
 
 rm -rf work/builtup-point
-decode_shape osm-place-point builtup-point Town "place='town'" '' 750
-decode_shape osm-place-point builtup-point Town "place='village'" '' 500
-decode_shape osm-place-point builtup-point Town "place='hamlet'" '' 250
+decode_shape osm-place-point builtup-point Town "place='town'" '' 250
+decode_shape osm-place-point builtup-point Town "place='village'" '' 100 
+decode_shape osm-place-point builtup-point Town "place='hamlet'" '' 50
 
 rm -rf  work/vmap0-veg
-decode_shape vmap0-tree vmap0-veg DeciduousForest "VEG_DESCRI='Deciduous'"
-decode_shape vmap0-tree vmap0-veg EvergreenForest "VEG_DESCRI='Evergreen'"
-decode_shape vmap0-tree vmap0-veg MixedForest "VEG_DESCRI='Mixed Trees'"
-decode_shape vmap0-cropland vmap0-veg MixedCrop
+decode_shape vmap0-tree vmap0-veg DeciduousBroadCover "VEG_DESCRI='Deciduous'"
+decode_shape vmap0-tree vmap0-veg EvergreenBroadCover "VEG_DESCRI='Evergreen'"
+decode_shape vmap0-tree vmap0-veg MixedForestCover "VEG_DESCRI='Mixed Trees'"
+decode_shape vmap0-cropland vmap0-veg MixedCropPastureCover
 decode_shape vmap0-grassland vmap0-veg GrassCover
 
 rm -rf work/vmap0-builtup
