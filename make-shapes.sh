@@ -1,9 +1,9 @@
 #!/bin/sh
 
-MIN_LAT=44
-MAX_LAT=46
+MIN_LAT=43
+MAX_LAT=47
 MIN_LON=-77
-MAX_LON=-75
+MAX_LON=-73
 
 
 decode_shape()
@@ -30,9 +30,9 @@ decode_shape()
     fi
 
     if [ -n "$QUERY" ]; then
-        ogr-decode --all-threads --max-segment 500 --where "$QUERY" ${POINT_WIDTH} ${LINE_WIDTH} --area-type ${AREA_TYPE} --spat $MIN_LON $MIN_LAT $MAX_LON $MAX_LAT work/${OUTPUT_DIR} data/shapefiles/${INPUT_DIR}
+        ogr-decode --all-threads --max-segment 500 --where "$QUERY" ${POINT_WIDTH} ${LINE_WIDTH} --texture-lines --area-type ${AREA_TYPE} --spat $MIN_LON $MIN_LAT $MAX_LON $MAX_LAT work/${OUTPUT_DIR} data/shapefiles/${INPUT_DIR}
     else
-        ogr-decode --all-threads --max-segment 500 ${POINT_WIDTH} ${LINE_WIDTH} --area-type ${AREA_TYPE} --spat $MIN_LON $MIN_LAT $MAX_LON $MAX_LAT work/${OUTPUT_DIR} data/shapefiles/${INPUT_DIR}
+        ogr-decode --all-threads --max-segment 500 ${POINT_WIDTH} ${LINE_WIDTH} --texture-lines --area-type ${AREA_TYPE} --spat $MIN_LON $MIN_LAT $MAX_LON $MAX_LAT work/${OUTPUT_DIR} data/shapefiles/${INPUT_DIR}
     fi
 }
 
@@ -41,15 +41,16 @@ rm -rf work/landmass
 decode_shape osm-landmass-area landmass Default
 
 rm -rf work/highway
-decode_shape osm-highway-line highway Road-Motorway "highway='motorway'" 12
-decode_shape osm-highway-line highway Road-Trunk "highway='trunk'" 12
-decode_shape osm-highway-line highway Road-Primary "highway='primary'" 12
-decode_shape osm-highway-line highway Road-Secondary "highway='secondary'" 10
-decode_shape osm-highway-line highway Road-Tertiary "highway='tertiary'" 8
-decode_shape osm-highway-line highway Road-Service "highway in ('motorway_link', 'trunk_link', 'primary_link', 'secondary_link', 'tertiary_link')" 8
+decode_shape osm-highway-line highway Road-Motorway "highway='motorway' and tunnel is null" 8
+decode_shape osm-highway-line highway Road-Trunk "highway='trunk' and tunnel is null" 8
+decode_shape osm-highway-line highway Road-Primary "highway='primary' and tunnel is null" 8
+decode_shape osm-highway-line highway Road-Secondary "highway='secondary' and tunnel is null" 8
+decode_shape osm-highway-line highway Road-Tertiary "highway='tertiary' and tunnel is null" 6
+decode_shape osm-highway-line highway Road-Tertiary "highway='unclassified' and tunnel is null" 6
+decode_shape osm-highway-line highway Road-Service "highway in ('motorway_link', 'trunk_link', 'primary_link', 'secondary_link', 'tertiary_link') and tunnel is null" 8
 
 rm -rf work/railway
-decode_shape osm-railway-line railway Railroad "railway in ('rail', 'light_rail', 'preserved')" 3
+decode_shape osm-railway-line railway Railroad "railway in ('rail', 'light_rail', 'preserved') and tunnel is null" 3
 
 rm -rf work/wetland
 decode_shape osm-natural-area wetland Marsh "natural='wetland'"
@@ -60,9 +61,9 @@ decode_shape osm-waterway-area water-area Lake "waterway='riverbank'"
 decode_shape osm-landuse-area water-area Lake "landuse in ('reservoir', 'water')"
 
 rm -rf work/water-line
-decode_shape osm-waterway-line water-line River "waterway='river'" 50
-#decode_shape osm-waterway-line water-line Stream "waterway='stream'" 25
-decode_shape osm-waterway-line water-line Canal "waterway='canal'" 10
+decode_shape osm-waterway-line water-line River "waterway='river' and tunnel is null" 50
+#decode_shape osm-waterway-line water-line Stream "waterway='stream' and tunnel is null" 25
+decode_shape osm-waterway-line water-line Canal "waterway='canal' and tunnel is null" 10
 
 rm -rf work/quarry
 decode_shape osm-landuse-area quarry OpenMining "landuse='quarry'"
