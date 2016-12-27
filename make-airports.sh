@@ -1,9 +1,9 @@
 #!/bin/sh
 
-MIN_LAT=44
-MAX_LAT=46
+MIN_LAT=43
+MAX_LAT=47
 MIN_LON=-77
-MAX_LON=-75
+MAX_LON=-73
 
 rm -rf work/AirportArea
 rm -rf work/AirportObj
