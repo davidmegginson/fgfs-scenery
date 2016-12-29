@@ -1,9 +1,9 @@
 #!/bin/sh
 
-MIN_LAT=43
-MAX_LAT=47
-MIN_LON=-77
-MAX_LON=-73
+MIN_LAT=40
+MAX_LAT=50
+MIN_LON=-80
+MAX_LON=-70
 
 INPUTS="AirportArea SRTM-3 AirportObj landmass highway railway wetland water-area water-line quarry greenspace builtup-area nature builtup-point vmap0-veg vmap0-builtup"
 
